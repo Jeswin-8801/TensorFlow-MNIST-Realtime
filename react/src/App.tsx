@@ -7,11 +7,11 @@ function App() {
     return (
         <>
             <section className="overflow-hidden">
-                <div className="w-full mx-auto max-w-xl flex flex-col min-h-svh justify-center py-32 p-8">
-                    <div className="prose text-gray-500 prose-sm prose-headings:font-normal prose-headings:text-xl">
-                        <h1>Start Drawing!!</h1>
+                <div className="w-full mx-auto max-w-xl flex flex-col min-h-svh justify-center py-10 p-8">
+                    <div className="w-3/4 prose text-gray-500 prose-sm prose-headings:font-normal prose-headings:text-xl">
+                        <p className="font-light text-xl">Start Drawing!!</p>
                     </div>
-                    <div className="mt-6 border-t pt-12">
+                    <div className="mt-6 border-t pt-12 w-3/4">
                         <div>
                             <Canvas clear={clear} setClear={setClear} />
                             <div className="flex mt-8">
