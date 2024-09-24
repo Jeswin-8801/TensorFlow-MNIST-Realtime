@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { trim } from "../Utils/Util";
+import { getBinaryArrayFromImage } from "../Utils/Model";
 
 interface Props {
     clear: boolean;
     setClear: (param: boolean) => void;
+    sendDataToParent: (data: string) => void;
 }
 
 type Coordinate = {
@@ -11,12 +13,13 @@ type Coordinate = {
     y: number;
 };
 
-const Canvas = ({ clear, setClear }: Props) => {
+const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const pixelRatio = window.devicePixelRatio;
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const scaledCanvasRef = useRef<HTMLCanvasElement>(null);
     const [modifying, setModifying] = useState(false);
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
@@ -104,16 +107,24 @@ const Canvas = ({ clear, setClear }: Props) => {
             if (!canvasRef.current) return;
             let canvas: HTMLCanvasElement = canvasRef.current;
             canvas = trim(canvas);
-            const context = canvas.getContext("2d", {
+
+            if (!scaledCanvasRef.current) return;
+            const scaledCanvas: HTMLCanvasElement = scaledCanvasRef.current;
+            const contextScaled = scaledCanvas.getContext("2d", {
                 willReadFrequently: true,
             });
-            if (context) {
-                var target = new Image();
-                target.src = context.canvas.toDataURL();
-                target.className = "border-2 border-green-700";
-
-                document.getElementById("result")!.appendChild(target);
-            }
+            if (!contextScaled) return;
+            contextScaled.save();
+            contextScaled.clearRect(
+                0,
+                0,
+                contextScaled.canvas.height,
+                contextScaled.canvas.width
+            );
+            contextScaled.scale(28.0 / canvas.width, 28.0 / canvas.height);
+            contextScaled.drawImage(canvas, 0, 0);
+            sendDataToParent(scaledCanvas.toDataURL());
+            contextScaled.restore();
         }
     }, [modifying, width, height]);
 
@@ -178,9 +189,14 @@ const Canvas = ({ clear, setClear }: Props) => {
                 ref={canvasRef}
                 height={height}
                 width={width}
-                className="border border-gray-200 shadow rounded-xl w-full"
+                className="border border-gray-200 bg-white shadow-xl rounded-xl w-full"
             />
-            <div id="result" className="border"></div>
+            <canvas
+                ref={scaledCanvasRef}
+                width={28}
+                height={28}
+                className="hidden"
+            />
         </>
     );
 };
