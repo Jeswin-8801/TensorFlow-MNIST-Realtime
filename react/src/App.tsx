@@ -12,15 +12,15 @@ function App() {
 
     return (
         <>
-            <div className="flex flex-col md:flex-row space-x-10 bg-slate-50">
-                <section className="overflow-hidden md:w-1/3">
+            <div className="flex flex-col sm:flex-row space-x-10 bg-slate-50">
+                <section className="overflow-hidden sm:w-1/3">
                     <div className="w-full mx-auto max-w-xl flex flex-col min-h-svh justify-center py-10 p-8">
-                        <div className="w-3/4 prose text-gray-600 prose-sm prose-headings:font-normal prose-headings:text-xl">
+                        <div className="lg:w-3/4 prose text-gray-600 prose-sm prose-headings:font-normal prose-headings:text-xl">
                             <p className="font-light text-xl">
                                 Start Drawing!!
                             </p>
                         </div>
-                        <div className="mt-6 border-t pt-12 w-3/4">
+                        <div className="mt-6 border-t pt-12 lg:w-3/4">
                             <div>
                                 <Canvas
                                     clear={clear}
@@ -54,13 +54,8 @@ function App() {
                         dataFromCanvas ? "flex" : "hidden"
                     }`}
                 >
-                    <div className="bg-black w-24 h-28 rounded-md shadow-lg shadow-green-950 border-2 border-green-700">
-                        <img
-                            src={dataFromCanvas}
-                            className="filter invert"
-                            width={100}
-                            height={100}
-                        />
+                    <div className="bg-black w-24 h-28 rounded-md shadow-lg shadow-green-950 border-2 border-green-950">
+                        <img src={dataFromCanvas} width={100} height={100} />
                     </div>
                 </div>
             </div>

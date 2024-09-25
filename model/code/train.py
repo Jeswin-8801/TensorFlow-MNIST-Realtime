@@ -51,14 +51,9 @@ def fitModel(x_train, y_train, model):
                     validation_split = 0.1,
                     callbacks = [callbacks])
     print('Fit Model ✔️')
-    model_store_dir = os.path.join(os.path.abspath('./model'), 'data')
-    # serialize model to JSON
-    model_json = model.to_json()
-    with open(model_store_dir + "/model.json", mode = "w", encoding = "utf-8") as json_file:
-        json_file.write(model_json)
-    # serialize weights to HDF5
-    model.save_weights(model_store_dir + "/model.weights.h5")
-    print('Saved Model to {}/ ✔️'.format(model_store_dir))
+    model_store_path = os.path.join(os.path.abspath('./model'), 'data', 'mnist.h5')
+    model.save(model_store_path)
+    print('Saved Model to {} ✔️'.format(model_store_path))
     
     
 def main():

@@ -124,6 +124,8 @@ const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
             contextScaled.scale(28.0 / canvas.width, 28.0 / canvas.height);
             contextScaled.drawImage(canvas, 0, 0);
             sendDataToParent(scaledCanvas.toDataURL());
+
+            getBinaryArrayFromImage(scaledCanvas);
             contextScaled.restore();
         }
     }, [modifying, width, height]);
@@ -169,7 +171,8 @@ const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
         if (context) {
             if (clear) setClear(false);
 
-            context.strokeStyle = "black";
+            context.strokeStyle = "white";
+            context.fillStyle = "black";
             context.lineJoin = "round";
             context.lineWidth = 8;
 
@@ -185,12 +188,14 @@ const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
 
     return (
         <>
-            <canvas
-                ref={canvasRef}
-                height={height}
-                width={width}
-                className="border border-gray-200 bg-white shadow-xl rounded-xl w-full"
-            />
+            <div className="border border-gray-200 shadow-xl rounded-xl ">
+                <canvas
+                    ref={canvasRef}
+                    height={height}
+                    width={width}
+                    className=" bg-black rounded-xl w-full filter invert"
+                />
+            </div>
             <canvas
                 ref={scaledCanvasRef}
                 width={28}
