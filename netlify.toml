@@ -3,7 +3,7 @@
 ##############################
 
 [build]
-base = "/"
+base = "react/"
 publish = "dist/"
 command = "npm run build --omit=dev"
 
