@@ -4,3 +4,14 @@
 
 Handwritten digit recognition using TensorFlow CNN in real-time
 
+👉 https://tensorflow-mnist.netlify.app/
+
+## Setup
+
+In the project folder run:
+
+`docker-compose up -d`
+
+### or
+
+`cd react/ && npm install && npm run dev`
