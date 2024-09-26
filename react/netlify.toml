@@ -2,10 +2,6 @@
 # Netlify configuration file #
 ##############################
 
-# List of Build plugins
-[[plugins]]
-package = "."
-
 [build]
 command = "vite build"
 
