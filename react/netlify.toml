@@ -4,7 +4,7 @@
 
 [build]
 base = "react/"
-publish = "project/dist/"
+publish = "react/dist/"
 command = "npm run build --omit=dev"
 
 [build.environment]
