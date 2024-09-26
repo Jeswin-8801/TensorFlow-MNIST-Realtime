@@ -1,0 +1,13 @@
+##############################
+# Netlify configuration file #
+##############################
+
+# List of Build plugins
+[[plugins]]
+package = "."
+
+[build]
+command = "vite build"
+
+[build.environment]
+NODE_VERSION = "20.14.0"
