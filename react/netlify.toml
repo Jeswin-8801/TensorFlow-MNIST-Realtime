@@ -3,7 +3,9 @@
 ##############################
 
 [build]
-command = "vite build"
+base = "react/"
+publish = "project/dist/"
+command = "npm run build --omit=dev"
 
 [build.environment]
 NODE_VERSION = "20.14.0"
