@@ -1,5 +1,5 @@
 export const trim = (canvas: HTMLCanvasElement) => {
-    var context = canvas.getContext("2d"),
+    var context = canvas.getContext("2d", { willReadFrequently: true }),
         copy = document.createElement("canvas").getContext("2d"),
         pixels = context!.getImageData(0, 0, canvas.width, canvas.height),
         l = pixels.data.length,

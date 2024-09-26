@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { trim } from "../Utils/Util";
-import { getBinaryArrayFromImage } from "../Utils/Model";
+import NumberRecognition from "../Utils/NumberRecognition";
 
 interface Props {
     clear: boolean;
     setClear: (param: boolean) => void;
-    sendDataToParent: (data: string) => void;
+    sendSetClearToParent: (data: string) => void;
+    setPrediction: (data: Float32Array) => void;
 }
 
 type Coordinate = {
@@ -13,7 +14,12 @@ type Coordinate = {
     y: number;
 };
 
-const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
+const Canvas = ({
+    clear,
+    setClear,
+    sendSetClearToParent,
+    setPrediction,
+}: Props) => {
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const pixelRatio = window.devicePixelRatio;
@@ -123,9 +129,20 @@ const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
             );
             contextScaled.scale(28.0 / canvas.width, 28.0 / canvas.height);
             contextScaled.drawImage(canvas, 0, 0);
-            sendDataToParent(scaledCanvas.toDataURL());
+            sendSetClearToParent(scaledCanvas.toDataURL());
 
-            getBinaryArrayFromImage(scaledCanvas);
+            const numberRecognition = new NumberRecognition(canvas);
+            numberRecognition.loadModel().then(() => {
+                numberRecognition
+                    .predict()
+                    .then((value) => {
+                        setPrediction(value);
+                    })
+                    .catch((error) => {
+                        console.error("Promise rejected with error: " + error);
+                    });
+            });
+
             contextScaled.restore();
         }
     }, [modifying, width, height]);
@@ -147,16 +164,28 @@ const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
         };
     }, [exitPaint, printDigit]);
 
-    const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
+    const getCoordinates = (
+        event: TouchEvent | MouseEvent
+    ): Coordinate | undefined => {
         if (!canvasRef.current) {
             return;
         }
 
         const canvas: HTMLCanvasElement = canvasRef.current;
-        return {
-            x: event.pageX - canvas.offsetLeft,
-            y: event.pageY - canvas.offsetTop,
-        };
+
+        if (event.type === "touchmove") {
+            event = event as TouchEvent;
+            return {
+                x: event.touches[0].pageX - canvas.offsetLeft,
+                y: event.touches[0].pageY - canvas.offsetTop,
+            };
+        } else if (event.type === "mousedown" || event.type === "mousemove") {
+            event = event as MouseEvent;
+            return {
+                x: event.pageX - canvas.offsetLeft,
+                y: event.pageY - canvas.offsetTop,
+            };
+        }
     };
 
     const drawLine = (
@@ -171,10 +200,8 @@ const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
         if (context) {
             if (clear) setClear(false);
 
-            context.strokeStyle = "white";
-            context.fillStyle = "black";
             context.lineJoin = "round";
-            context.lineWidth = 8;
+            context.lineWidth = 6;
 
             context.beginPath();
             context.moveTo(originalMousePosition.x, originalMousePosition.y);
@@ -188,14 +215,12 @@ const Canvas = ({ clear, setClear, sendDataToParent }: Props) => {
 
     return (
         <>
-            <div className="border border-gray-200 shadow-xl rounded-xl ">
-                <canvas
-                    ref={canvasRef}
-                    height={height}
-                    width={width}
-                    className=" bg-black rounded-xl w-full filter invert"
-                />
-            </div>
+            <canvas
+                ref={canvasRef}
+                height={height}
+                width={width}
+                className="border border-gray-200 shadow-xl shadow-stone-300 rounded-xl w-full"
+            />
             <canvas
                 ref={scaledCanvasRef}
                 width={28}
