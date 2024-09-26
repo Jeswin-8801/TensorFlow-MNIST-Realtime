@@ -43,7 +43,13 @@ const Graph = ({ results }: Props) => {
                     from: "color",
                     modifiers: [["darker", 1.6]],
                 }}
-                tooltip={(value) => "👉 " + value.data.prediction}
+                tooltip={(value) => {
+                    return (
+                        <div className="rounded-full bg-slate-950 shadow-lg font-mono font-extrabold text-teal-50 p-2">
+                            {value.data.prediction}
+                        </div>
+                    );
+                }}
                 // label={(l) => `${l.data.prediction} %`}
                 role="application"
                 ariaLabel="Predictions Chart"

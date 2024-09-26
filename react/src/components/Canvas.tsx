@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { trim } from "../Utils/Util";
-import NumberRecognition from "../Utils/NumberRecognition";
+import { trim } from "../util/Util";
+import NumberRecognition from "../util/NumberRecognition";
 
 interface Props {
     clear: boolean;

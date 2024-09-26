@@ -1,0 +1,5 @@
+services:
+    react:
+        build: ./react
+        ports:
+            - 5173:8082
