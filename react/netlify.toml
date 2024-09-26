@@ -3,8 +3,8 @@
 ##############################
 
 [build]
-base = "react/"
-publish = "react/dist/"
+base = "/"
+publish = "dist/"
 command = "npm run build --omit=dev"
 
 [build.environment]
