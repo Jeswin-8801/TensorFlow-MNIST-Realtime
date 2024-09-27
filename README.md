@@ -4,7 +4,7 @@
 
 Handwritten digit recognition using TensorFlow CNN in real-time
 
-<kbd> 🚀 https://tensorflow-mnist.netlify.app/ </kbd>
+> 🚀 https://tensorflow-mnist.netlify.app/
 
 # Setup
 
@@ -23,7 +23,8 @@ cd react/ && npm install && npm run dev
 > Access the site at [http://localhost:5173](http://localhost:5173/)
 
 > [!NOTE]
-> For more information on model architecture and training refer [model/notebook.ipynb](model/notebook.ipynb)
+> For more information on model architecture and training refer [model/notebook.ipynb](model/notebook.ipynb) <br/>
+> Instructions to run training scripts and save the model can be found over at [model/README.md](model/README.md)
 
 ---
 
