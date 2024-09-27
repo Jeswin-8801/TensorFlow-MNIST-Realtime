@@ -7,7 +7,7 @@ from custom_util import *
 input_shape = (28, 28, 1)
 batch_size = 64
 num_classes = 10
-epochs = 5
+epochs = 10
 callbacks = myCallback()
 
 def processData():
@@ -51,7 +51,7 @@ def fitModel(x_train, y_train, model):
                     validation_split = 0.1,
                     callbacks = [callbacks])
     print('Fit Model ✔️')
-    model_store_path = os.path.join(os.path.abspath('./model'), 'data', 'mnist.h5')
+    model_store_path = os.path.join(os.path.abspath('./data'), 'mnist.h5')
     model.save(model_store_path)
     print('Saved Model to {} ✔️'.format(model_store_path))
     

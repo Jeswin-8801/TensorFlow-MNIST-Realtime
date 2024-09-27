@@ -6,9 +6,11 @@ Handwritten digit recognition using TensorFlow CNN in real-time
 
 > 🚀 https://tensorflow-mnist.netlify.app/
 
+<br/>
+
 # Setup
 
-In the project directory run 👇
+In the project directory run
 
 ```bash
 docker-compose up -d
